@@ -36,10 +36,9 @@ func (e Event) GetMeaning() string {
 
 var ErrDuplicatedUser = errors.New("user already exists")
 
-
 // Service provides user adding operations
 type Service interface {
-	AddUser(...User) <- chan Event
+	AddUser(...User) <-chan Event
 }
 
 // Repository provides access to user repository

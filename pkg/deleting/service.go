@@ -32,7 +32,7 @@ var ErrUserNotFound = errors.New("user not found")
 
 // Service provides user deleting operations
 type Service interface {
-	DeleteUser(...int) <- chan Event
+	DeleteUser(...int) <-chan Event
 }
 
 // Repository provides access to user repository
@@ -51,7 +51,7 @@ func NewService(r Repository) Service {
 }
 
 // DeleteUser deletes a user with the specified ID
-func (s *service) DeleteUser(userIDs ...int) <- chan Event {
+func (s *service) DeleteUser(userIDs ...int) <-chan Event {
 	results := make(chan Event)
 
 	go func() {

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="text" content="">
+    <meta name="author" content="Otto Schuldt">
+    <title>BitMasking APP</title>
+    <link rel="shortcut icon" href="#">
+</head>
+<body>
+{{$Error := .}}
+<div class="centered">
+    <h2>Create User</h2>
+    <a href="/">Return</a>
+    {{if $Error }}
+        <p class="error">{{$Error}}</p>
+    {{end}}
+    <form action="/add" method="post" autocomplete="off">
+        <label for="id_first_name">First Name:</label>
+        <input required id="id_first_name" type="text" name="first_name">
+        <br>
+        <label for="id_last_name">Last Name:</label>
+        <input required id="id_last_name" type="text" name="last_name">
+        <br>
+        <label for="id_email">Email:</label>
+        <input required id="id_email" type="text" name="email">
+        <br>
+        <button type="submit">Create</button>
+    </form>
+</div>
+
+</body>
+</html>
