@@ -11,7 +11,7 @@ const (
 
 var GroupsRegistered = []Group{GroupA, GroupB, GroupC, GroupD}
 
-func (g Group) GroupName() string {
+func (g Group) Name() string {
 	if g == GroupA {
 		return "Group A"
 	}
