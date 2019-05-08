@@ -40,7 +40,7 @@ func (h *AddUser) Handler(a adding.Service) http.Handler {
 
 			ctx := struct {
 				Groups []groups.GroupData
-				Error string
+				Error  string
 			}{
 				groupList,
 				"",
