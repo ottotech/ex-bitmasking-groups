@@ -6,15 +6,16 @@
     <meta name="text" content="">
     <meta name="author" content="Otto Schuldt">
     <title>BitMasking APP</title>
-    <link rel="shortcut icon" href="#">
+    <link rel="shortcut icon" href="/favicon.ico">
 </head>
 <body>
-{{$Error := .}}
+
+{{$Groups := .Groups}}
 <div class="centered">
     <h2>Create User</h2>
     <a href="/">Return</a>
-    {{if $Error }}
-        <p class="error">{{$Error}}</p>
+    {{with .Error }}
+        <p class="error">{{.}}</p>
     {{end}}
     <form action="/add" method="post" autocomplete="off">
         <label for="id_first_name">First Name:</label>
@@ -25,6 +26,14 @@
         <br>
         <label for="id_email">Email:</label>
         <input required id="id_email" type="text" name="email">
+        <br>
+        <label for="js_groups">Groups:</label>
+        <select id="js_groups">
+            <option value="">-------</option>
+            {{range $Groups}}
+            <option value="{{.GroupConfig}}">{{.GroupName}}</option>
+            {{end}}
+        </select>
         <br>
         <button type="submit">Create</button>
     </form>

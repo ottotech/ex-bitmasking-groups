@@ -2,6 +2,7 @@ package rest
 
 import (
 	"github.com/ottotech/ex-bitmasking-groups/pkg/adding"
+	"github.com/ottotech/ex-bitmasking-groups/pkg/groups"
 	"github.com/ottotech/ex-bitmasking-groups/pkg/listing"
 	"github.com/ottotech/ex-bitmasking-groups/pkg/utils"
 	"log"
@@ -35,7 +36,17 @@ type AddUser struct {
 func (h *AddUser) Handler(a adding.Service) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodGet {
-			utils.RenderTemplate(w, "add.gohtml", nil)
+			groupList := groups.GetAllGroups()
+
+			ctx := struct {
+				Groups []groups.GroupData
+				Error string
+			}{
+				groupList,
+				"",
+			}
+
+			utils.RenderTemplate(w, "add.gohtml", ctx)
 			return
 		}
 
@@ -44,7 +55,12 @@ func (h *AddUser) Handler(a adding.Service) http.Handler {
 		email := r.PostFormValue("email")
 
 		if firstName == "" || lastName == "" || email == "" {
-			utils.RenderTemplate(w, "add.gohtml", "Error: All fields are mandatory.")
+			ctx := struct {
+				Error string
+			}{
+				"Error: All fields are mandatory.",
+			}
+			utils.RenderTemplate(w, "add.gohtml", ctx)
 			return
 		}
 
