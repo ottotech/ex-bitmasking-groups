@@ -1,12 +1,14 @@
 package rest
 
 import (
+	"fmt"
 	"github.com/ottotech/ex-bitmasking-groups/pkg/adding"
 	"github.com/ottotech/ex-bitmasking-groups/pkg/groups"
 	"github.com/ottotech/ex-bitmasking-groups/pkg/listing"
 	"github.com/ottotech/ex-bitmasking-groups/pkg/utils"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 type App struct {
@@ -50,9 +52,19 @@ func (h *AddUser) Handler(a adding.Service) http.Handler {
 			return
 		}
 
+		_ = r.ParseForm()
 		firstName := r.PostFormValue("first_name")
 		lastName := r.PostFormValue("last_name")
 		email := r.PostFormValue("email")
+		groupsIDs := r.PostForm["groups_ids"]
+		groupConfig := 0
+
+		for _, id := range groupsIDs {
+			idInt, _ := strconv.Atoi(id)
+			groupConfig |= idInt
+		}
+
+		fmt.Println(groupConfig)
 
 		if firstName == "" || lastName == "" || email == "" {
 			ctx := struct {
@@ -64,7 +76,13 @@ func (h *AddUser) Handler(a adding.Service) http.Handler {
 			return
 		}
 
-		u := adding.User{FirstName: firstName, LastName: lastName, Email: email}
+		u := adding.User{
+			FirstName:   firstName,
+			LastName:    lastName,
+			Email:       email,
+			GroupConfig: groupConfig,
+		}
+
 		results := a.AddUser(u)
 
 		for r := range results {
