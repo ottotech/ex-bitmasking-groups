@@ -9,8 +9,14 @@
     <link rel="shortcut icon" href="/favicon.ico">
 </head>
 <body>
-{{$UserList := .}}
-<div class="centered">
+{{$UserList := .List}}
+{{$Messages := .Messages}}
+<ul>
+    {{range $Messages}}
+        <li>{{.}}</li>
+    {{end}}
+</ul>
+<div>
     <h3>List of Users:</h3>
     {{if gt (len $UserList) 0 }}
         <ul style="list-style: none;">
@@ -23,6 +29,8 @@
     {{end}}
     <br>
     <a href="/add">Create new user</a>
+    <br>
+    <a href="/">refresh</a>
 </div>
 
 </body>

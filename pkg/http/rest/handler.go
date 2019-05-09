@@ -6,7 +6,6 @@ import (
 	"github.com/ottotech/ex-bitmasking-groups/pkg/groups"
 	"github.com/ottotech/ex-bitmasking-groups/pkg/listing"
 	"github.com/ottotech/ex-bitmasking-groups/pkg/utils"
-	"log"
 	"net/http"
 	"strconv"
 )
@@ -26,8 +25,19 @@ func (h *UserList) Handler(l listing.Service) http.Handler {
 			return
 		}
 
+		_ = r.ParseForm()
+		messages := r.Form["message"]
 		list := l.GetAllUsers()
-		utils.RenderTemplate(w, "list.gohtml", list)
+
+		ctx := struct {
+			Messages []string
+			List     []listing.User
+		}{
+			messages,
+			list,
+		}
+
+		utils.RenderTemplate(w, "list.gohtml", ctx)
 		return
 	})
 }
@@ -60,11 +70,9 @@ func (h *AddUser) Handler(a adding.Service) http.Handler {
 		groupConfig := 0
 
 		for _, id := range groupsIDs {
-			idInt, _ := strconv.Atoi(id)
+			idInt, _ := strconv.Atoi(id) // for simplicity error is not handled
 			groupConfig |= idInt
 		}
-
-		fmt.Println(groupConfig)
 
 		if firstName == "" || lastName == "" || email == "" {
 			ctx := struct {
@@ -83,13 +91,17 @@ func (h *AddUser) Handler(a adding.Service) http.Handler {
 			GroupConfig: groupConfig,
 		}
 
+		// get results of operation
 		results := a.AddUser(u)
 
+		// send message(s) through URL
+		urlParameter := "?message=%v"
+		url := "/"
 		for r := range results {
-			log.Println(r.GetMeaning())
+			url += fmt.Sprintf(urlParameter, r.GetMeaning())
 		}
 
-		http.Redirect(w, r, "/", http.StatusSeeOther)
+		http.Redirect(w, r, url, http.StatusSeeOther)
 		return
 	})
 }
