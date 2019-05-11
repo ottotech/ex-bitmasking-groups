@@ -13,7 +13,7 @@ const (
 	GroupD int = 8 // 00001000
 )
 
-var RegisteredGroups = []int{GroupA, GroupB, GroupC, GroupD}  // order matters
+var RegisteredGroups = []int{GroupA, GroupB, GroupC, GroupD} // order matters
 
 type GroupData struct {
 	GroupName   string

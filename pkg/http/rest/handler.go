@@ -143,7 +143,7 @@ func (h *GetUser) Handler(l listing.Service) http.Handler {
 		userGroups := groups.GetGroupsByConfiguration(u.GroupConfig)
 
 		ctx := struct {
-			User listing.User
+			User       listing.User
 			UserGroups []groups.GroupData
 		}{
 			u,
