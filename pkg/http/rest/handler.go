@@ -140,7 +140,17 @@ func (h *GetUser) Handler(l listing.Service) http.Handler {
 			return
 		}
 
-		utils.RenderTemplate(w, "detail.gohtml", u)
+		userGroups := groups.GetGroupsByConfiguration(u.GroupConfig)
+
+		ctx := struct {
+			User listing.User
+			UserGroups []groups.GroupData
+		}{
+			u,
+			userGroups,
+		}
+
+		utils.RenderTemplate(w, "detail.gohtml", ctx)
 		return
 	})
 }

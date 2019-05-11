@@ -1,6 +1,8 @@
 package groups
 
-import "errors"
+import (
+	"errors"
+)
 
 type Group int
 
@@ -11,7 +13,7 @@ const (
 	GroupD int = 8 // 00001000
 )
 
-var RegisteredGroups = []int{GroupA, GroupB, GroupC, GroupD}
+var RegisteredGroups = []int{GroupA, GroupB, GroupC, GroupD}  // order matters
 
 type GroupData struct {
 	GroupName   string
@@ -52,30 +54,14 @@ func GetAllGroups() []GroupData {
 	return groups
 }
 
-func BelongsToGroupA(groupConfig int) bool {
-	if groupConfig&GroupA > 1 {
-		return true
+func GetGroupsByConfiguration(config int) []GroupData {
+	var groups []GroupData
+	for _, groupConfig := range RegisteredGroups {
+		if config&groupConfig > 0 {
+			name, _ := GetGroupName(groupConfig)
+			group := GroupData{name, groupConfig}
+			groups = append(groups, group)
+		}
 	}
-	return false
-}
-
-func BelongsToGroupB(groupConfig int) bool {
-	if groupConfig&GroupB > 1 {
-		return true
-	}
-	return false
-}
-
-func BelongsToGroupC(groupConfig int) bool {
-	if groupConfig&GroupC > 1 {
-		return true
-	}
-	return false
-}
-
-func BelongsToGroupD(groupConfig int) bool {
-	if groupConfig&GroupD > 1 {
-		return true
-	}
-	return false
+	return groups
 }

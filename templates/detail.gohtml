@@ -10,7 +10,8 @@
 </head>
 <body>
 
-{{$User := .}}
+{{$User := .User}}
+{{$UserGroups := .UserGroups}}
 <div>
     <h2>Detail User</h2>
     <a href="/">Return</a>
@@ -19,6 +20,12 @@
     <p><strong>Last Name:</strong> {{$User.LastName}}</p>
     <p><strong>Email:</strong> {{$User.Email}}</p>
     <p><strong>Group Configuration:</strong> {{$User.GroupConfig}}</p>
+    <h3>User Groups:</h3>
+    <ul>
+        {{range $UserGroups}}
+            <li>{{.GroupName}}</li>
+        {{end}}
+    </ul>
 </div>
 
 </body>
