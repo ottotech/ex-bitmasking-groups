@@ -9,7 +9,7 @@ type Event int
 
 const (
 	// UserCreatedSuccessFully means finished processing successfully
-	UserCreatedSuccessFully Event = iota
+	UserCreatedSuccessfully Event = iota
 
 	// UserAlreadyExists means the given user is a duplicate of an existing one
 	UserAlreadyExists
@@ -19,7 +19,7 @@ const (
 )
 
 func (e Event) GetMeaning() string {
-	if e == UserCreatedSuccessFully {
+	if e == UserCreatedSuccessfully {
 		return "User was created successfully"
 	}
 
@@ -72,7 +72,7 @@ func (s *service) AddUser(users ...User) <-chan Event {
 				results <- UserCouldNotBeCreated
 				continue
 			}
-			results <- UserCreatedSuccessFully
+			results <- UserCreatedSuccessfully
 		}
 	}()
 

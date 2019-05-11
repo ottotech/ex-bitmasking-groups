@@ -7,22 +7,26 @@ type Event int
 
 const (
 	// Done means finished processing successfully
-	Done Event = iota
+	UserDeletedSuccessfully Event = iota
 
 	// Failed means processing did not finish successfully
-	Failed
+	UserCouldNotBeDeleted
 
 	// NotFound means that user was not found for deleting
 	NotFound
 )
 
 func (e Event) GetMeaning() string {
-	if e == Done {
+	if e == UserDeletedSuccessfully {
 		return "Done! user was deleted successfully."
 	}
 
-	if e == Failed {
+	if e == UserCouldNotBeDeleted {
 		return "Failed! we couldn't delete the user."
+	}
+
+	if e == NotFound {
+		return "User couldn't be found!"
 	}
 
 	return "Unknown result"
@@ -63,10 +67,10 @@ func (s *service) DeleteUser(userIDs ...int) <-chan Event {
 					results <- NotFound
 					continue
 				}
-				results <- Failed
+				results <- UserCouldNotBeDeleted
 				continue
 			}
-			results <- Done
+			results <- UserDeletedSuccessfully
 		}
 	}()
 
