@@ -3,6 +3,7 @@ package rest
 import (
 	"fmt"
 	"github.com/ottotech/ex-bitmasking-groups/pkg/adding"
+	"github.com/ottotech/ex-bitmasking-groups/pkg/deleting"
 	"github.com/ottotech/ex-bitmasking-groups/pkg/groups"
 	"github.com/ottotech/ex-bitmasking-groups/pkg/listing"
 	"github.com/ottotech/ex-bitmasking-groups/pkg/utils"
@@ -14,9 +15,10 @@ import (
 )
 
 type App struct {
-	UserList *UserList
-	AddUser  *AddUser
-	GetUser  *GetUser
+	UserList   *UserList
+	AddUser    *AddUser
+	GetUser    *GetUser
+	DeleteUser *DeleteUser
 }
 
 type UserList struct {
@@ -156,6 +158,44 @@ func (h *GetUser) Handler(l listing.Service) http.Handler {
 		}
 
 		utils.RenderTemplate(w, "detail.gohtml", ctx)
+		return
+	})
+}
+
+type DeleteUser struct {
+}
+
+func (h *DeleteUser) Handler(d deleting.Service) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodGet {
+			http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
+			return
+		}
+
+		// clean path to get the user ID
+		p := path.Clean("/" + r.URL.Path)[1:]
+		i := strings.Index(p, "/") + 1
+		tail := p[i:]
+
+		// check if id is valid
+		id, err := strconv.Atoi(tail)
+		if err != nil {
+			log.Println(err)
+			http.Error(w, fmt.Sprintf("This user ID is not valid: %v.", tail), http.StatusBadRequest)
+			return
+		}
+
+		// get results of operation
+		results := d.DeleteUser(id)
+
+		// send message(s) through URL
+		urlParameter := "?message=%v"
+		customURL := "/"
+		for r := range results {
+			customURL += fmt.Sprintf(urlParameter, r.GetMeaning())
+		}
+
+		http.Redirect(w, r, customURL, http.StatusTemporaryRedirect)
 		return
 	})
 }

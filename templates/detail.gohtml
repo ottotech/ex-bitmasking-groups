@@ -26,6 +26,9 @@
             <li>{{.GroupName}}</li>
         {{end}}
     </ul>
+    <form method="post" action="/delete/{{$User.Id}}">
+        <button tabindex="-1" type="submit">Delete User</button>
+    </form>
 </div>
 
 </body>
