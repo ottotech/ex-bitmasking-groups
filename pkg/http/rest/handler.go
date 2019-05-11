@@ -29,10 +29,6 @@ func (h *UserList) Handler(l listing.Service) http.Handler {
 		messages := r.Form["message"]
 		list := l.GetAllUsers()
 
-		if len(messages) > 0 {
-
-		}
-
 		ctx := struct {
 			Messages []string
 			List     []listing.User
@@ -100,12 +96,12 @@ func (h *AddUser) Handler(a adding.Service) http.Handler {
 
 		// send message(s) through URL
 		urlParameter := "?message=%v"
-		url := "/"
+		customURL := "/"
 		for r := range results {
-			url += fmt.Sprintf(urlParameter, r.GetMeaning())
+			customURL += fmt.Sprintf(urlParameter, r.GetMeaning())
 		}
 
-		http.Redirect(w, r, url, http.StatusSeeOther)
+		http.Redirect(w, r, customURL, http.StatusTemporaryRedirect)
 		return
 	})
 }
