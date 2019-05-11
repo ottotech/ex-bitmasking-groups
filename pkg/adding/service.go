@@ -8,27 +8,27 @@ import (
 type Event int
 
 const (
-	// Done means finished processing successfully
-	Done Event = iota
+	// UserCreatedSuccessFully means finished processing successfully
+	UserCreatedSuccessFully Event = iota
 
 	// UserAlreadyExists means the given user is a duplicate of an existing one
 	UserAlreadyExists
 
-	// Failed means processing did not finish successfully
-	Failed
+	// UserCouldNotBeCreated means processing did not finish successfully
+	UserCouldNotBeCreated
 )
 
 func (e Event) GetMeaning() string {
-	if e == Done {
-		return "Done"
+	if e == UserCreatedSuccessFully {
+		return "User was created successfully"
 	}
 
 	if e == UserAlreadyExists {
 		return "Duplicate user"
 	}
 
-	if e == Failed {
-		return "Failed"
+	if e == UserCouldNotBeCreated {
+		return "User couldn't be created"
 	}
 
 	return "Unknown result"
@@ -69,10 +69,10 @@ func (s *service) AddUser(users ...User) <-chan Event {
 					results <- UserAlreadyExists
 					continue
 				}
-				results <- Failed
+				results <- UserCouldNotBeCreated
 				continue
 			}
-			results <- Done
+			results <- UserCreatedSuccessFully
 		}
 	}()
 

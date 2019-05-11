@@ -29,6 +29,10 @@ func (h *UserList) Handler(l listing.Service) http.Handler {
 		messages := r.Form["message"]
 		list := l.GetAllUsers()
 
+		if len(messages) > 0 {
+
+		}
+
 		ctx := struct {
 			Messages []string
 			List     []listing.User
