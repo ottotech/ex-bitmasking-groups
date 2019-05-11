@@ -2,7 +2,7 @@ package listing
 
 import "errors"
 
-var ErrUserNotFound = errors.New("user not found when updating")
+var ErrUserNotFound = errors.New("user not found for listing")
 
 // Service provides user listing operations
 type Service interface {

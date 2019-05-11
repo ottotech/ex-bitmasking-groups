@@ -31,6 +31,7 @@ func main() {
 	mux := http.NewServeMux()
 	mux.Handle("/", app.UserList.Handler(lister))
 	mux.Handle("/add", app.AddUser.Handler(adder))
+	mux.Handle("/get/", app.GetUser.Handler(lister))
 	mux.Handle("/favicon.ico", http.NotFoundHandler())
 	server := http.Server{
 		Addr:    ":8080",

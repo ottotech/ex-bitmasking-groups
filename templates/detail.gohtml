@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="text" content="">
+    <meta name="author" content="Otto Schuldt">
+    <title>BitMasking APP</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+</head>
+<body>
+
+{{$User := .}}
+<div>
+    <h2>Detail User</h2>
+    <a href="/">Return</a>
+    <br>
+    <p><strong>First Name:</strong> {{$User.FirstName}}</p>
+    <p><strong>Last Name:</strong> {{$User.LastName}}</p>
+    <p><strong>Email:</strong> {{$User.Email}}</p>
+    <p><strong>Group Configuration:</strong> {{$User.GroupConfig}}</p>
+</div>
+
+</body>
+</html>

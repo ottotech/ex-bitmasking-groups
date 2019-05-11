@@ -6,13 +6,17 @@ import (
 	"github.com/ottotech/ex-bitmasking-groups/pkg/groups"
 	"github.com/ottotech/ex-bitmasking-groups/pkg/listing"
 	"github.com/ottotech/ex-bitmasking-groups/pkg/utils"
+	"log"
 	"net/http"
+	"path"
 	"strconv"
+	"strings"
 )
 
 type App struct {
 	UserList *UserList
 	AddUser  *AddUser
+	GetUser  *GetUser
 }
 
 type UserList struct {
@@ -102,6 +106,41 @@ func (h *AddUser) Handler(a adding.Service) http.Handler {
 		}
 
 		http.Redirect(w, r, customURL, http.StatusTemporaryRedirect)
+		return
+	})
+}
+
+type GetUser struct {
+}
+
+func (h *GetUser) Handler(l listing.Service) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodPost {
+			http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
+			return
+		}
+
+		// clean path to get the user ID
+		p := path.Clean("/" + r.URL.Path)[1:]
+		i := strings.Index(p, "/") + 1
+		tail := p[i:]
+
+		// check if id is valid
+		id, err := strconv.Atoi(tail)
+		if err != nil {
+			log.Println(err)
+			http.Error(w, fmt.Sprintf("This user ID is not valid: %v.", tail), http.StatusBadRequest)
+			return
+		}
+
+		u, err := l.GetUser(id)
+		if err != nil {
+			log.Println(err)
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		utils.RenderTemplate(w, "detail.gohtml", u)
 		return
 	})
 }
