@@ -135,9 +135,14 @@ func (h *GetUser) Handler(l listing.Service) http.Handler {
 
 		u, err := l.GetUser(id)
 		if err != nil {
-			log.Println(err)
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
+		}
+
+		// one way to check if a user belongs to a particular group
+		if groups.BelongsToGroup(groups.GroupA, u.GroupConfig) {
+			msg := fmt.Sprintf("User: %v belongs to group A!", u.FirstName)
+			fmt.Println(msg)
 		}
 
 		userGroups := groups.GetGroupsByConfiguration(u.GroupConfig)
