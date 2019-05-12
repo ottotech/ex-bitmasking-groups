@@ -21,7 +21,7 @@ func GroupDConfig() int {
 	return GroupD
 }
 
-func ObjBelongToGroup(g, config int) bool {
+func ObjBelongsToGroup(g, config int) bool {
 	groupIsRegistered := false
 	for _, group := range RegisteredGroups {
 		if group == g {
@@ -30,7 +30,7 @@ func ObjBelongToGroup(g, config int) bool {
 		}
 	}
 	if !groupIsRegistered {
-		log.Fatal("Groups passed to template tag ObjBelongToGroup is not registered!")
+		log.Fatal("Group passed to template tag BelongsToGroup is not registered!")
 	}
 	return BelongsToGroup(g, config)
 }
@@ -40,5 +40,5 @@ var Fm = template.FuncMap{
 	"GroupB":         GroupBConfig,
 	"GroupC":         GroupCConfig,
 	"GroupD":         GroupDConfig,
-	"BelongsToGroup": ObjBelongToGroup,
+	"BelongsToGroup": ObjBelongsToGroup,
 }
