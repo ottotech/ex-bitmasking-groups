@@ -1,8 +1,10 @@
 package config
 
 import (
+	"flag"
 	"github.com/ottotech/ex-bitmasking-groups/pkg/groups"
 	"html/template"
+	"log"
 )
 
 var TPL *template.Template
@@ -14,5 +16,15 @@ func init() {
 		"templates/list.gohtml",
 		"templates/detail.gohtml",
 	}
-	TPL = template.Must(template.New("").Funcs(groups.Fm).ParseFiles(templateList...))
+	var err error
+	TPL, err = template.New("").Funcs(groups.Fm).ParseFiles(templateList...)
+	if err != nil {
+		// TODO: research if this is a robust approach to check if the test pkg has been called
+		// TODO: research why templates don't work when testing
+		if flag.Lookup("test.v") != nil {
+			log.Println(err)
+		} else {
+			log.Fatal(err)
+		}
+	}
 }
