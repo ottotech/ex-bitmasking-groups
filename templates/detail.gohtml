@@ -16,6 +16,19 @@
     <h2>Detail User</h2>
     <a href="/">Return</a>
     <br>
+    {{ if BelongsToGroup GroupA $User.GroupConfig}}
+        <p style="color: #00A8FF">This user belongs to group A</p>
+    {{end}}
+    {{ if BelongsToGroup GroupB $User.GroupConfig}}
+        <p style="color: #00A8FF">This user belongs to group B</p>
+    {{end}}
+    {{ if BelongsToGroup GroupC $User.GroupConfig}}
+        <p style="color: #00A8FF">This user belongs to group C</p>
+    {{end}}
+    {{ if BelongsToGroup GroupD $User.GroupConfig}}
+        <p style="color: #00A8FF">This user belongs to group D</p>
+    {{end}}
+    <br>
     <p><strong>First Name:</strong> {{$User.FirstName}}</p>
     <p><strong>Last Name:</strong> {{$User.LastName}}</p>
     <p><strong>Email:</strong> {{$User.Email}}</p>

@@ -1,6 +1,9 @@
 package config
 
-import "html/template"
+import (
+	"github.com/ottotech/ex-bitmasking-groups/pkg/groups"
+	"html/template"
+)
 
 var TPL *template.Template
 
@@ -11,5 +14,5 @@ func init() {
 		"templates/list.gohtml",
 		"templates/detail.gohtml",
 	}
-	TPL = template.Must(template.ParseFiles(templateList...))
+	TPL = template.Must(template.New("").Funcs(groups.Fm).ParseFiles(templateList...))
 }

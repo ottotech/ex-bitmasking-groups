@@ -66,7 +66,7 @@ func GetGroupsByConfiguration(config int) []GroupData {
 	return groups
 }
 
-func BelongsToGroup(g int, config int) bool {
+func BelongsToGroup(g, config int) bool {
 	if config&g > 0 {
 		return true
 	}
