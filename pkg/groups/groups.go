@@ -20,9 +20,6 @@ type GroupData struct {
 	GroupConfig Group
 }
 
-type GroupMembership interface {
-}
-
 func GetGroupName(g Group) (string, error) {
 	if g == GroupA {
 		return "Group A", nil
