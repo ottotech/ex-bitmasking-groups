@@ -72,12 +72,12 @@ func (h *AddUser) Handler(a adding.Service) http.Handler {
 		firstName := r.PostFormValue("first_name")
 		lastName := r.PostFormValue("last_name")
 		email := r.PostFormValue("email")
-		groupsIDs := r.PostForm["groups_ids"]
+		groupsConfigurations := r.PostForm["groups_configurations"]
 		groupConfig := 0
 
-		for _, id := range groupsIDs {
-			idInt, _ := strconv.Atoi(id) // for simplicity error is not handled
-			groupConfig |= idInt
+		for _, config := range groupsConfigurations {
+			configInt, _ := strconv.Atoi(config) // for simplicity error is not handled
+			groupConfig |= configInt
 		}
 
 		if firstName == "" || lastName == "" || email == "" {

@@ -7,23 +7,23 @@ import (
 type Group int
 
 const (
-	GroupA int = 1 // 00000001
-	GroupB int = 2 // 00000010
-	GroupC int = 4 // 00000100
-	GroupD int = 8 // 00001000
+	GroupA Group = 1 // 00000001
+	GroupB Group = 2 // 00000010
+	GroupC Group = 4 // 00000100
+	GroupD Group = 8 // 00001000
 )
 
-var RegisteredGroups = []int{GroupA, GroupB, GroupC, GroupD} // order matters
+var RegisteredGroups = []Group{GroupA, GroupB, GroupC, GroupD} // order matters
 
 type GroupData struct {
 	GroupName   string
-	GroupConfig int
+	GroupConfig Group
 }
 
 type GroupMembership interface {
 }
 
-func GetGroupName(g int) (string, error) {
+func GetGroupName(g Group) (string, error) {
 	if g == GroupA {
 		return "Group A", nil
 	}
@@ -57,7 +57,7 @@ func GetAllGroups() []GroupData {
 func GetGroupsByConfiguration(config int) []GroupData {
 	var groups []GroupData
 	for _, groupConfig := range RegisteredGroups {
-		if config&groupConfig > 0 {
+		if config&int(groupConfig) > 0 {
 			name, _ := GetGroupName(groupConfig)
 			group := GroupData{name, groupConfig}
 			groups = append(groups, group)
@@ -66,8 +66,8 @@ func GetGroupsByConfiguration(config int) []GroupData {
 	return groups
 }
 
-func BelongsToGroup(g, config int) bool {
-	if config&g > 0 {
+func BelongsToGroup(g Group, config int) bool {
+	if config&int(g) > 0 {
 		return true
 	}
 	return false

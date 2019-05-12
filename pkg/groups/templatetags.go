@@ -5,23 +5,23 @@ import (
 	"log"
 )
 
-func GroupAConfig() int {
+func GroupAConfig() Group {
 	return GroupA
 }
 
-func GroupBConfig() int {
+func GroupBConfig() Group {
 	return GroupB
 }
 
-func GroupCConfig() int {
+func GroupCConfig() Group {
 	return GroupC
 }
 
-func GroupDConfig() int {
+func GroupDConfig() Group {
 	return GroupD
 }
 
-func ObjBelongsToGroup(g, config int) bool {
+func ObjBelongsToGroup(g Group, config int) bool {
 	groupIsRegistered := false
 	for _, group := range RegisteredGroups {
 		if group == g {
@@ -30,7 +30,7 @@ func ObjBelongsToGroup(g, config int) bool {
 		}
 	}
 	if !groupIsRegistered {
-		log.Fatal("Group passed to template tag BelongsToGroup is not registered!")
+		log.Fatal("Group passed to template tag `BelongsToGroup` is not registered!")
 	}
 	return BelongsToGroup(g, config)
 }
