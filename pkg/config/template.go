@@ -5,6 +5,7 @@ import (
 	"github.com/ottotech/ex-bitmasking-groups/pkg/groups"
 	"html/template"
 	"log"
+	"os"
 )
 
 var TPL *template.Template
@@ -16,15 +17,12 @@ func init() {
 		"templates/list.gohtml",
 		"templates/detail.gohtml",
 	}
-	var err error
-	TPL, err = template.New("").Funcs(groups.Fm).ParseFiles(templateList...)
-	if err != nil {
-		// TODO: research if this is a robust approach to check if the test pkg has been called
-		// TODO: research why templates don't work when testing
-		if flag.Lookup("test.v") != nil {
-			log.Println(err)
-		} else {
+
+	// when testing we need to change the working directory to the root app
+	if flag.Lookup("test.v") != nil {
+		if err := os.Chdir("../../.."); err != nil {
 			log.Fatal(err)
 		}
 	}
+	TPL = template.Must(template.New("").Funcs(groups.Fm).ParseFiles(templateList...))
 }
