@@ -93,4 +93,9 @@ func TestAddUser_Handler(t *testing.T) {
 	if res2.StatusCode != http.StatusTemporaryRedirect {
 		t.Errorf("expected status 307; got %v", res2.StatusCode)
 	}
+
+	u := storage.GetAllUsers()[0]
+	if u.FirstName != "Fancy" || u.LastName != "Gopher" || u.Email != "gopher@hotmail.com" || u.GroupConfig != int(groups.GroupA|groups.GroupB) {
+		t.Errorf("expected a user `Fancy Gopher gopher@hotmail.com %v`; got %v %v %v %v", int(groups.GroupA|groups.GroupB), u.FirstName, u.LastName, u.Email, u.GroupConfig)
+	}
 }
