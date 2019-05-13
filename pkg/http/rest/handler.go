@@ -82,8 +82,10 @@ func (h *AddUser) Handler(a adding.Service) http.Handler {
 
 		if firstName == "" || lastName == "" || email == "" {
 			ctx := struct {
-				Error string
+				Groups []groups.GroupData
+				Error  string
 			}{
+				[]groups.GroupData{},
 				"Error: All fields are mandatory.",
 			}
 			utils.RenderTemplate(w, "add.gohtml", ctx)
