@@ -24,7 +24,7 @@ func (e Event) GetMeaning() string {
 	}
 
 	if e == UserAlreadyExists {
-		return "Duplicate user"
+		return "Duplicated user"
 	}
 
 	if e == UserCouldNotBeCreated {

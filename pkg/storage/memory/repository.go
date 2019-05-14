@@ -13,6 +13,14 @@ type Storage struct {
 
 // AddUser saves the given user in repository
 func (m *Storage) AddUser(u adding.User) error {
+
+	// validate user uniqueness by email
+	for i := range m.users {
+		if m.users[i].Email == u.Email {
+			return adding.ErrDuplicatedUser
+		}
+	}
+
 	newUser := User{
 		Id:          len(m.users) + 1,
 		FirstName:   u.FirstName,
