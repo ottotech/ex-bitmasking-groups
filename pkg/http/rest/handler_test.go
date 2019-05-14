@@ -3,6 +3,7 @@ package rest
 import (
 	"github.com/ottotech/ex-bitmasking-groups/pkg/adding"
 	_ "github.com/ottotech/ex-bitmasking-groups/pkg/config"
+	"github.com/ottotech/ex-bitmasking-groups/pkg/deleting"
 	"github.com/ottotech/ex-bitmasking-groups/pkg/groups"
 	"github.com/ottotech/ex-bitmasking-groups/pkg/listing"
 	"github.com/ottotech/ex-bitmasking-groups/pkg/storage/memory"
@@ -155,4 +156,62 @@ func TestGetUser_Handler(t *testing.T) {
 	if res3.StatusCode != http.StatusBadRequest {
 		t.Errorf("expected status 400; got %v", res3.StatusCode)
 	}
+}
+
+func TestDeleteUser_Handler(t *testing.T) {
+	// request 1
+	r1, err := http.NewRequest(http.MethodPost, "localhost:8080", nil)
+	r1.URL.Path = "/delete/1"
+	if err != nil {
+		t.Fatalf("Could not create request: %v", err)
+	}
+
+	// request 2
+	r2, err := http.NewRequest(http.MethodPost, "localhost:8080", nil)
+	r2.URL.Path = "/delete/2"
+	if err != nil {
+		t.Fatalf("Could not create request: %v", err)
+	}
+
+	// request 3
+	r3, err := http.NewRequest(http.MethodGet, "localhost:8080", nil)
+	r3.URL.Path = "/delete/"
+	if err != nil {
+		t.Fatalf("Could not create request: %v", err)
+	}
+
+	// setup
+	app := new(App)
+	storage := new(memory.Storage)
+	var deleter deleting.Service
+	deleter = deleting.NewService(storage)
+	rec1 := httptest.NewRecorder()
+	rec2 := httptest.NewRecorder()
+	rec3 := httptest.NewRecorder()
+
+	// create user
+	u := adding.User{FirstName: "Fancy", LastName: "Gopher", Email: "gopher@gmail.com", GroupConfig:0}
+	_ = storage.AddUser(u)
+
+	// make requests
+	app.DeleteUser.Handler(deleter).ServeHTTP(rec1, r1)
+	res1 := rec1.Result()
+	app.DeleteUser.Handler(deleter).ServeHTTP(rec2, r2)
+	res2 := rec2.Result()
+	app.DeleteUser.Handler(deleter).ServeHTTP(rec3, r3)
+	res3 := rec3.Result()
+
+	// tests
+	if res1.StatusCode != http.StatusTemporaryRedirect {
+		t.Errorf("expected status 307; got %v", res1.StatusCode)
+	}
+
+	if res2.StatusCode != http.StatusTemporaryRedirect {
+		t.Errorf("expected status 307; got %v", res2.StatusCode)
+	}
+
+	if res3.StatusCode != http.StatusMethodNotAllowed {
+		t.Errorf("expected status 405; got %v", res3.StatusCode)
+	}
+
 }
