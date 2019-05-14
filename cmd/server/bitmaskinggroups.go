@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/ottotech/ex-bitmasking-groups/pkg/adding"
 	"github.com/ottotech/ex-bitmasking-groups/pkg/deleting"
+	"github.com/ottotech/ex-bitmasking-groups/pkg/groups"
 	"github.com/ottotech/ex-bitmasking-groups/pkg/http/rest"
 	"github.com/ottotech/ex-bitmasking-groups/pkg/listing"
 	"github.com/ottotech/ex-bitmasking-groups/pkg/storage/memory"
@@ -37,6 +38,7 @@ func main() {
 	mux.Handle("/get/", app.GetUser.Handler(lister))
 	mux.Handle("/delete/", app.DeleteUser.Handler(deleter))
 	mux.Handle("/favicon.ico", http.NotFoundHandler())
+	mux.Handle("/dummy", groups.Wrapper(app.Dummy.Handler(), groups.GroupA))
 	server := http.Server{
 		Addr:    ":8080",
 		Handler: mux,

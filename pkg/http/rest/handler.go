@@ -19,6 +19,7 @@ type App struct {
 	AddUser    *AddUser
 	GetUser    *GetUser
 	DeleteUser *DeleteUser
+	Dummy      *Dummy
 }
 
 type UserList struct {
@@ -199,5 +200,15 @@ func (h *DeleteUser) Handler(d deleting.Service) http.Handler {
 
 		http.Redirect(w, r, customURL, http.StatusTemporaryRedirect)
 		return
+	})
+}
+
+type Dummy struct {
+}
+
+func (h *Dummy) Handler() http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println("Hello World!")
+		_, _ = fmt.Fprintln(w, "<h1>No one can access this for now!</h1>")
 	})
 }

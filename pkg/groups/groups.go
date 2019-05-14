@@ -2,6 +2,8 @@ package groups
 
 import (
 	"errors"
+	"fmt"
+	"net/http"
 )
 
 type Group int
@@ -68,4 +70,20 @@ func BelongsToGroup(g Group, config int) bool {
 		return true
 	}
 	return false
+}
+
+func Wrapper(h http.Handler, g Group) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// TODO:
+		// we hardcoded here the user group configuration, for explanatory purposes. We should get this data from
+		// another resource, e.g., the user from the request, etc.
+		hardCodedGroupConfig := int(GroupB)
+
+		if !BelongsToGroup(g, hardCodedGroupConfig) {
+			groupName, _ := GetGroupName(g)
+			http.Error(w, fmt.Sprintf("This user does not belong to this group: %v.", groupName), http.StatusForbidden)
+			return
+		}
+		h.ServeHTTP(w, r)
+	})
 }

@@ -133,7 +133,7 @@ func TestGetUser_Handler(t *testing.T) {
 	rec3 := httptest.NewRecorder()
 
 	// create user
-	u := adding.User{FirstName: "Fancy", LastName: "Gopher", Email: "gopher@gmail.com", GroupConfig:0}
+	u := adding.User{FirstName: "Fancy", LastName: "Gopher", Email: "gopher@gmail.com", GroupConfig: 0}
 	_ = storage.AddUser(u)
 
 	// make requests
@@ -190,7 +190,7 @@ func TestDeleteUser_Handler(t *testing.T) {
 	rec3 := httptest.NewRecorder()
 
 	// create user
-	u := adding.User{FirstName: "Fancy", LastName: "Gopher", Email: "gopher@gmail.com", GroupConfig:0}
+	u := adding.User{FirstName: "Fancy", LastName: "Gopher", Email: "gopher@gmail.com", GroupConfig: 0}
 	_ = storage.AddUser(u)
 
 	// make requests
