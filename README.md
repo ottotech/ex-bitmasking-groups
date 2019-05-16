@@ -1,4 +1,4 @@
-## riskmanagement (prototype)
+## ex-bitmasking-groups (prototype)
 
 *ex-bitmasking-groups* is a small app (prototype) that uses the concept of bit masking to grant any user access to
 certain groups. This prototype is a ``CRUD`` type of application that comes with a UI in order to explore how the concept
