@@ -2,11 +2,10 @@
 
 *ex-bitmasking-groups* is a small app (prototype) that uses the concept of bit masking to grant any user access to
 certain groups. This prototype is a ``CRUD`` type of application that comes with a UI in order to explore how the concept
-of bit masking can be used to allow users do some action based on the groups they belong to.  
-Because this app is just a prototype is just storing all the data in memory, that means if you stop the 
-GO built-in server you will lose all the data; however, if you decide to use the app seriously I suggest you to use a 
-different storage, like a sequel database.  
-The design pattern I used to create this app is DDD.
+of bit masking can be used to allow users do some actions based on the groups they belong to. Because this app is just 
+a prototype is just storing all the data in memory, that means if you stop the GO built-in server you will lose all 
+the data; however, if you decide to use the app seriously I suggest you to use a 
+different storage, like a sequel database. The design pattern I used to create this app is DDD.
 
 **NOTE:**
 This app is just a prototype of a more robust solution; however, I thought this might be interesting for someone so 
