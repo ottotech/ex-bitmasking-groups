@@ -23,7 +23,7 @@ Or you can compile the whole into a binary by simply running:
 go build cmd/server/bitmaskinggroups.go
 ```
 
-and the executing the executable: 
+and then run the executable: 
 
 ```
 ./bitmaskinggroups 
